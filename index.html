@@ -112,6 +112,33 @@
   </audio>
 </div>
 
+    <script>
+  async function validarToken() {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+
+    if (!token) {
+      alert("Acceso denegado. Debes iniciar sesión.");
+      window.location.href = "https://tudominio.com/login.php";
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://tudominio.com/validateToken.php?token=${token}`);
+      const result = await response.json();
+
+      if (!result.valid) {
+        alert("Token inválido o expirado. Por favor inicia sesión nuevamente.");
+        window.location.href = "https://tudominio.com/login.php";
+      }
+    } catch (e) {
+      alert("Error de validación. Intenta más tarde.");
+      window.location.href = "https://tudominio.com/login.php";
+    }
+  }
+
+  validarToken();
+</script>
 
     <script src="script.js" defer></script>
 
